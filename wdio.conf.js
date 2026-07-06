@@ -243,7 +243,10 @@ export const config = {
    */
   afterTest: async function (test, context, { passed }) {
     if (!passed) {
+      const fs = await import('node:fs/promises');
       const safeTitle = test.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
+      await fs.mkdir('./screenshots', { recursive: true });
       await browser.saveScreenshot(`./screenshots/${safeTitle}.png`);
     }
   },
